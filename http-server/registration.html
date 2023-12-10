@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html 
+lang="en">
+<head>  
+<meta 
+charset="UTF-8">  
+<meta 
+name="viewport" 
+content="width=device-width, initial-scale=1.0">  
+<title>Registration Form
+</title>  
+<style>    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+      }
+      
+      input {
+        padding: 10px;
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      
+      input[type="date"] {
+        width: calc(100% - 22px);
+      }
+      
+      input[type="checkbox"] {
+        margin-right: 5px;
+      }
+      
+      button {
+        padding: 10px;
+        border: none;
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      
+      button:hover {
+        background-color: #45a049;
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      
+      th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+  </style>
+</head>
+<body>
+  <h1>Registration Form
+  </h1>
+<form id="registrationForm">
+    <label
+for="name">Name:</label>
+<input
+type="text"
+id="name"
+name="name"
+required>
+<label
+for="email">Email:</label>
+<input
+type="email"
+id="email"
+name="email"
+required>
+<label
+for="password">Password:</label>
+<input
+type="password"
+id="password"
+name="password"
+required>
+<label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" min="1968-01-01" max="2005-12-31" required>
+
+    <label for="termsAccepted">
+      <input type="checkbox" id="termsAccepted" name="termsAccepted" required>
+      I accept the terms and conditions.
+    </label>
+
+    <button type="submit">Submit</button>
+  </form>
+<table id="registrationTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Dob</th>
+        <th>Accepted terms?</th>
+      </tr>
+    </thead>
+    <tbody>
+      </tbody>
+  </table>
+  <script>
+    const data = JSON.parse(localStorage.getItem('registrationData') || '[]');
+    const tableBody = document.getElementById('registrationTable').querySelector('tbody');
+    for (const row of data) {
+      const tr = document.createElement('tr');
+      for (const key of ['name', 'email', 'password', 'dob', 'termsAccepted']) {
+        const td = document.createElement('td');
+        td.textContent = row[key];
+        tr.appendChild(td);
+      }
+      tableBody.appendChild(tr);
+    }
+    const form = document.getElementById('registrationForm');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const dobInput = document.getElementById('dob');
+      const dobValue = new Date(dobInput.value);
+      const today = new Date();
+      const minAge = 18;
+      const maxAge = 55;
+  if (
+        isNaN(dobValue.getTime()) ||
+        today.getTime() - dobValue.getTime() < minAge * 365 * 24 * 60 * 60 * 1000 ||
+        maxAge * 365 * 24 * 60 * 60 * 1000 < today.getTime() - dobValue.getTime()
+      ) {
+        alert('Please enter a valid date of birth between 18 and 55 years old.');
+        dobInput.focus();
+        return;
+      }
+      const formData = {
+        name: form.elements.name.value,
+        email: form.elements.email.value,
+        password: form.elements.password.value,
+        dob: form.elements.dob.value,
+        termsAccepted: form.elements.termsAccepted.checked,
+      };
+      const tr = document.createElement('tr');
+      for (const key of ['name', 'email', 'password', 'dob', 'termsAccepted']) {
+        const td = document.createElement('td');
+        td.textContent = formData[key];
+        tr.appendChild(td);
+      }
+      tableBody.appendChild(tr);
+      data.push(formData);
+      localStorage.setItem('registrationData', JSON.stringify(data));
+      form.reset();
+    });
+  </script>
+  
