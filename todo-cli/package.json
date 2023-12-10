@@ -4,6 +4,7 @@
   "description": "",
   "main": "todo.js",
   "scripts": {
+    "start": "node todo.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Saikumarerothu <erothusaikumar21csaiml@student.vardhaman.org>",
