@@ -4,11 +4,9 @@
   "description": "My Todo-cli application",
   "main": "todo.js",
   "scripts": {
-    
     "test": "jest",
     "prepare": "cd .. && husky install todo-cli/.husky"
   },
- 
   "author": "Saikumarerothu <erothusaikumar21csaiml@student.vardhaman.org>",
   "license": "ISC",
   "lint-staged": {
